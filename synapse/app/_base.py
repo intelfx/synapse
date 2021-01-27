@@ -20,6 +20,7 @@ import signal
 import socket
 import sys
 import traceback
+import platform
 from typing import Awaitable, Callable, Iterable
 
 from typing_extensions import NoReturn
@@ -339,7 +340,7 @@ async def start(hs: "synapse.server.HomeServer", listeners: Iterable[ListenerCon
     # rest of time. Doing so means less work each GC (hopefully).
     #
     # This only works on Python 3.7
-    if sys.version_info >= (3, 7):
+    if platform.python_implementation() == "CPython" and sys.version_info >= (3, 7):
         gc.collect()
         gc.freeze()
 
